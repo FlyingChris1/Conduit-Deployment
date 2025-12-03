@@ -1,0 +1,30 @@
+name: Deployment
+
+# Trigger: Immer wenn auf den main-Branch gepusht wird
+on:
+  push:
+    branches:
+      - test-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Code aus dem Repo holen
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2️⃣ SSH-Agent starten und privaten Key laden
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # 3️⃣ Deployment via SSH
+      - name: Deploy via SSH
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} \
+          "cd /path/to/project &&
+           docker compose pull &&
+           docker compose up -d --build"
