@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # SSH-Agent starten und privaten Key laden
+      # SSH-Agent starten und Commandos ausführen
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.1
         with:
@@ -20,11 +20,10 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
+          script: |
+            cd /home/christopher-schuf/Conduit-Deployment
+            docker compose pull,
+            docker compose up -d --build
 
-      # Deployment via SSH
-      - name: Deploy via SSH
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }},
-          cd /home/christopher-schuf/Conduit-Deployment,
-           docker compose pull,
-           docker compose up -d --build
+      
+      
