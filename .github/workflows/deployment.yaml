@@ -16,10 +16,10 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.KEY}}
-          port: ${{secrets.PORT}}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           script: |
             cd /home/christopher-schuf/Conduit-Deployment
             docker compose pull,
