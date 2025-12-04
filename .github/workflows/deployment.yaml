@@ -45,5 +45,11 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: |
+            cd /home/christopher-schuf/Conduit-Deployment
+            echo "Verzeichnisinhalt:"
+            ls -la
+            echo "Docker Compose Version:"
+            docker compose version || docker-compose version
+
             
