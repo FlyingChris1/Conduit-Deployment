@@ -27,12 +27,12 @@ jobs:
       # ---------------------------------------------------
       - name: Build backend image
         run: |
-          docker build -t ghcr.io/flyingchris1/conduit-backend:latest ./backend
+          docker build -t ghcr.io/flyingchris1/conduit-backend:latest ./conduit-backend
           docker push ghcr.io/flyingchris1/conduit-backend:latest
 
       - name: Build frontend image
         run: |
-          docker build -t ghcr.io/flyingchris1/conduit-frontend:latest ./frontend
+          docker build -t ghcr.io/flyingchris1/conduit-frontend:latest ./conduit-frontend
           docker push ghcr.io/flyingchris1/conduit-frontend:latest
 
       # ---------------------------------------------------
