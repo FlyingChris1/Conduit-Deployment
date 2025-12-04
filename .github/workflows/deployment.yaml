@@ -1,28 +1,60 @@
 name: Deployment
 
-# Trigger: Immer wenn auf den main-Branch gepusht wird
-on: [push]
+on:
+  [push]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Code aus dem Repo holen
+      # ---------------------------------------------------
+      # 1. Repo auschecken
+      # ---------------------------------------------------
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # SSH-Agent starten und Commandos ausführen test
-      - name: Setup SSH
+      # ---------------------------------------------------
+      # 2. Docker Login (Images werden NICHT auf VM gebaut!)
+      # ---------------------------------------------------
+      - name: Login to Docker Registry
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # ---------------------------------------------------
+      # 3. Images lokal im GitHub Runner bauen + pushen
+      # ---------------------------------------------------
+      - name: Build backend image
+        run: |
+          docker build -t https://ghcr.io/FlyingChris1/conduit-backend:latest ./backend
+          docker push https://ghcr.io/FlyingChris1/conduit-backend:latest
+
+      - name: Build frontend image
+        run: |
+          docker build -t https://ghcr.io/FlyingChris1/conduit-frontend:latest ./frontend
+          docker push https://ghcr.io/FlyingChris1/conduit-frontend:latest
+
+      # ---------------------------------------------------
+      # 4. SSH Deployment (auf VM NICHTS bauen!)
+      # ---------------------------------------------------
+      - name: Deploy on Server via SSH
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: |
-            cd /home/christopher-schuf/Conduit-Deployment
-            docker compose up --build -d
 
-      
+          script: |
+            # Ins Projektverzeichnis wechseln
+            cd /home/christopher-schuf/Conduit-Deployment
+            
+            # Neueste Images holen
+            docker compose pull
+
+            # Container starten (DETACHED MODE, OHNE BUILD!)
+            docker compose up -d
+
+            # Prüfen, ob alles läuft (Fehler brechen Workflow ab)
+            docker compose ps
       
