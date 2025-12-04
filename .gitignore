@@ -3,3 +3,5 @@ conduit-backend/.gitignore
 src/app/core/interceptors/api.interceptor.ts
 conduit-frontend/src/environments/environment.prod.ts
 .env
+pkey
+pkey.pub
