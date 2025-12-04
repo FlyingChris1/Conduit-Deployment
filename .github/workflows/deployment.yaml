@@ -8,23 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ---------------------------------------------------
-      # 1. Repo auschecken
-      # ---------------------------------------------------
+     
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # ---------------------------------------------------
-      # 2. Docker Login (GHCR!)
-      # ---------------------------------------------------
+     
       - name: Login to GHCR
         run: |
           echo "${{ secrets.GHCR_TOKEN }}" \
             | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
 
-      # ---------------------------------------------------
-      # 3. Images bauen + pushen (GHCR – ohne https://)
-      # ---------------------------------------------------
+     
       - name: Build backend image
         run: |
           docker build -t ghcr.io/flyingchris1/conduit-backend:latest ./conduit-backend
@@ -35,9 +29,7 @@ jobs:
           docker build -t ghcr.io/flyingchris1/conduit-frontend:latest ./conduit-frontend
           docker push ghcr.io/flyingchris1/conduit-frontend:latest
 
-      # ---------------------------------------------------
-      # 4. Deployment via SSH
-      # ---------------------------------------------------
+     
       - name: Deploy on Server via SSH
         uses: appleboy/ssh-action@v1.2.4
         with:
@@ -49,6 +41,6 @@ jobs:
             cd /home/christopher-schuf/Conduit-Deployment
             docker compose pull
             docker compose up -d
-            docker compose ps
+            
 
             
