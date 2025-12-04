@@ -39,8 +39,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/christopher-schuf/Conduit-Deployment
-            docker compose pull
-            docker compose up -d
+            
             
 
             
