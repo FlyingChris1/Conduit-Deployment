@@ -45,7 +45,7 @@ jobs:
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "compose.yaml,.env"
           target: ${{ secrets.PATH_TO_PROJECT }}    
