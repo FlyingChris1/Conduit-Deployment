@@ -63,4 +63,5 @@ jobs:
           script: |
              cd ${{ secrets.PATH_TO_PROJECT }}
               docker compose -f docker-compose.yaml pull
-              docker compose -f docker-compose.yaml up -d 
+              docker compose -f docker-compose.yaml up -d
+              docker ps 
