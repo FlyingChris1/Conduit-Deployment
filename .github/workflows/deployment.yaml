@@ -42,27 +42,28 @@ jobs:
 
 
       - name: Copy compose.yaml and .env to server
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          source: "compose.yaml,.env"
-          target: ${{ secrets.PATH_TO_PROJECT }}    
-
-     
-      - name: Deploy on Server via SSH
-        uses: appleboy/ssh-action@v1.2.4
+        uses: appleboy/scp-action@v1.2.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: |
-             cd ${{ secrets.PATH_TO_PROJECT }}
-              docker compose -f docker-compose.yml pull
-              docker compose -f docker-compose.yml up -d
-              docker compose ps
+          source: "compose-yaml,.env"
+          target: ${{ secrets.PATH_TO_PROJECT }}    
+
+     
+      #- name: Deploy on Server via SSH
+        #uses: appleboy/ssh-action@v1.2.4
+        #with:
+         # host: ${{ secrets.HOST }}
+          #username: ${{ secrets.USERNAME }}
+          #key: ${{ secrets.KEY }}
+          #port: ${{ secrets.PORT }}
+          #script: |
+           #  cd ${{ secrets.PATH_TO_PROJECT }}
+            #  docker compose -f docker-compose.yml pull
+             # docker compose -f docker-compose.yml up -d
+              #docker compose ps
             
 
             
