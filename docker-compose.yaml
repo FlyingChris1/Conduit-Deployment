@@ -1,5 +1,6 @@
 services:
   backend:
+    image: ghcr.io/flyingchris1/conduit-backend:v1.0
     container_name: ${CONTAINER_NAME_BACKEND}
     ports:
       - "8000:8000"
@@ -8,6 +9,7 @@ services:
       - backend_data:/app/data
 
   frontend:
+    image: ghcr.io/flyingchris1/conduit-frontend:v1.0
     container_name: ${CONTAINER_NAME_FRONTEND}
     ports:
       - "8282:80"
