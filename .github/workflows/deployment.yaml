@@ -13,7 +13,7 @@ jobs:
      
       - name: Checkout Code
         uses: actions/checkout@v6
-
+[B
      
       - name: Login to GHCR
         run: |
@@ -59,7 +59,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-             cd ${{ secrets.PATH_TO_PROJECT }}
+              cd ${{ secrets.PATH_TO_PROJECT }}
               docker compose -f docker-compose.yaml pull
               docker compose -f docker-compose.yaml up -d
               docker compose ps
