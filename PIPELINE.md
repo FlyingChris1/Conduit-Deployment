@@ -1,7 +1,7 @@
 # Deployment-Pipeline (GitHub Actions)
 
-Dieses Dokument beschreibt die Deployment-Pipeline, die in `.github/workflows/deployment.yaml` definiert ist.  
-Die Pipeline automatisiert das Bauen, Veröffentlichen und Ausrollen der Backend- und Frontend-Images sowie das Aktualisieren des Deployments auf dem Server.
+This document describes the deployment pipeline defined in .github/workflows/deployment.yaml.
+The pipeline automates the building, publishing, and deployment of backend and frontend images, as well as updating the deployment on the server.
 
 ---
 
