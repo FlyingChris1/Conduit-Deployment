@@ -1,16 +1,14 @@
 services:
   backend:
     container_name: ${CONTAINER_NAME_BACKEND}
-    build: ./conduit-backend
     ports:
       - "8000:8000"
     restart: ${RESTART_POLICY}
     volumes:
-      - backend_data:/app/data        
+      - backend_data:/app/data
 
   frontend:
     container_name: ${CONTAINER_NAME_FRONTEND}
-    build: ./conduit-frontend
     ports:
       - "8282:80"
     restart: ${RESTART_POLICY}
