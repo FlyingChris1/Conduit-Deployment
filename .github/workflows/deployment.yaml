@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          source: "docker-compose-yaml,.env"
+          source: "docker-compose.yaml,.env"
           target: ${{ secrets.PATH_TO_PROJECT }}
 
       - name: Deploy on Server via SSH
@@ -60,6 +60,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
              cd ${{ secrets.PATH_TO_PROJECT }}
-              docker compose -f docker-compose.yml pull
-              docker compose -f docker-compose.yml up -d
+              docker compose -f docker-compose.yaml pull
+              docker compose -f docker-compose.yaml up -d
               docker compose ps
