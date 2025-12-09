@@ -1,0 +1,69 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - feature
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+     
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+     
+      - name: Login to GHCR
+        run: |
+          echo "${{ secrets.GHCR_TOKEN }}" \
+            | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+
+     
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./conduit-backend
+          push: true
+          tags: |
+            ghcr.io/flyingchris1/conduit-backend:latest
+            ghcr.io/flyingchris1/conduit-backend:${{ github.sha }}
+
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./conduit-frontend
+          push: true
+          tags: |
+            ghcr.io/flyingchris1/conduit-frontend:latest
+            ghcr.io/flyingchris1/conduit-frontend:${{ github.sha }}
+
+
+      - name: Create .env from secret
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
+
+      - name: Copy compose.yaml and .env to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          source: "docker-compose.yaml,.env"
+          target: ${{ secrets.PATH_TO_PROJECT }}
+
+      - name: Deploy on Server via SSH
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+              cd ${{ secrets.PATH_TO_PROJECT }}
+              docker compose -f docker-compose.yaml pull
+              docker compose -f docker-compose.yaml up -d
+              docker compose ps
