@@ -1,4 +1,4 @@
-# Conduit-Container
+# Conduit-Deployment
 
 This repository contains a Conduit Deployment project. It includes a fully containerized frontend and backend application, configured for deployment on a cloud VM using Docker Compose. The project aims to provide a reproducible and scalable environment for running Conduit, with persistent data storage and automated deployment workflows.
 
