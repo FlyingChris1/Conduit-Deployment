@@ -26,7 +26,10 @@ jobs:
         with:
           context: ./conduit-backend
           push: true
-          tags: ghcr.io/flyingchris1/conduit-backend:v1.0
+          tags: |
+            ghcr.io/flyingchris1/conduit-backend:latest
+            ghcr.io/flyingchris1/conduit-backend:v1.0
+            ghcr.io/flyingchris1/conduit-backend:${{ github.sha }}
 
 
       - name: Build and push frontend image
@@ -34,7 +37,10 @@ jobs:
         with:
           context: ./conduit-frontend
           push: true
-          tags: ghcr.io/flyingchris1/conduit-frontend:v1.0
+          tags: |
+            ghcr.io/flyingchris1/conduit-frontend:latest
+            ghcr.io/flyingchris1/conduit-frontend:v1.0
+            ghcr.io/flyingchris1/conduit-frontend:${{ github.sha }}
 
 
       - name: Create .env from secret
